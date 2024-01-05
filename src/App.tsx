@@ -1,17 +1,38 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
+const viewArticle = (article: { item_name: React.ReactNode }) => (
+  <div className="flex flex-row gap-4">
+    <div>{article.item_name}</div>
+  </div>
+);
 
 function App() {
+  const [articles, setArticles] = useState<Array<{ item_name: string }>>([]);
+  const [page, setPage] = useState(1);
+  const [requestState, setState] = useState("not sent");
+
   useEffect(() => {
-    fetch(
-      "https://diplomatic-canvas-46f6e60bf1.strapiapp.com/api/articles"
-    ).then((response) => {
+    setState("loading");
+    fetch(`http://litshare.cz/articles`).then((response) => {
+      setState("looaded");
       response.json().then((data) => {
-        console.log(data);
+        setArticles(data);
       });
     });
-  }, []);
+  }, [page]);
 
-  return <></>;
+  return (
+    <div className="flex items-center flex-col">
+      <div className="container mx-auto p-4 border-2 border-solid border-amber-200">
+        {articles.map(viewArticle)}
+      </div>
+      <div className="flex flex-row gap-4">
+        <button onClick={() => setPage(page - 1)}>{"<-"}</button>
+        {page}
+        <button onClick={() => setPage(page + 1)}>{"->"}</button>
+      </div>
+    </div>
+  );
 }
 
 export default App;
