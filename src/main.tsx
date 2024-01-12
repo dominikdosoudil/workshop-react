@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
 import {
   Outlet,
@@ -12,6 +11,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Home from "./pages/Home.tsx";
+import { Articles } from "./pages/Articles.tsx";
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -50,7 +50,7 @@ const aboutRoute = new Route({
 const articleRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/articles",
-  component: App,
+  component: Articles,
 });
 
 const routeTree = rootRoute.addChildren([indexRoute, aboutRoute, articleRoute]);

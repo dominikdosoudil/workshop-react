@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const viewArticle = (article: { item_name: React.ReactNode }) => (
   <div className="flex flex-row gap-4">
@@ -6,19 +6,21 @@ const viewArticle = (article: { item_name: React.ReactNode }) => (
   </div>
 );
 
-function App() {
+export const Articles = () => {
   const [articles, setArticles] = useState<Array<{ item_name: string }>>([]);
   const [page, setPage] = useState(1);
   const [requestState, setState] = useState("not sent");
 
   useEffect(() => {
     setState("loading");
-    fetch(`http://litshare.cz/articles`).then((response) => {
-      setState("looaded");
-      response.json().then((data) => {
-        setArticles(data);
-      });
-    });
+    fetch(`http://litshare.cz/articles?skip=${(page - 1) * 10}`).then(
+      (response) => {
+        setState("looaded");
+        response.json().then((data) => {
+          setArticles(data);
+        });
+      },
+    );
   }, [page]);
 
   return (
@@ -33,6 +35,4 @@ function App() {
       </div>
     </div>
   );
-}
-
-export default App;
+};
