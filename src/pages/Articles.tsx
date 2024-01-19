@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { articleDetailRoute } from "../main.tsx";
 
-const viewArticle = (article: { item_name: React.ReactNode }) => (
+const viewArticle = (article: { id: string; item_name: React.ReactNode }) => (
   <div className="flex flex-row gap-4">
-    <div>{article.item_name}</div>
+    <Link to={articleDetailRoute.to} params={{ articleId: article.id }}>
+      <div>{article.item_name}</div>
+    </Link>
   </div>
 );
 
 export const Articles = () => {
-  const [articles, setArticles] = useState<Array<{ item_name: string }>>([]);
+  const [articles, setArticles] = useState<
+    Array<{ item_name: string; id: string }>
+  >([]);
   const [page, setPage] = useState(1);
   const [requestState, setState] = useState("not sent");
 

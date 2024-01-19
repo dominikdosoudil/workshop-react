@@ -12,6 +12,16 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Home from "./pages/Home.tsx";
 import { Articles } from "./pages/Articles.tsx";
+import { Article } from "./pages/Article.tsx";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const rootRoute = new RootRoute({
   component: () => (
@@ -53,7 +63,18 @@ const articleRoute = new Route({
   component: Articles,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, aboutRoute, articleRoute]);
+export const articleDetailRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/articles/$articleId",
+  component: Article,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  aboutRoute,
+  articleRoute,
+  articleDetailRoute,
+]);
 
 const router = new Router({ routeTree });
 
@@ -67,6 +88,8 @@ const rootElement = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 );
