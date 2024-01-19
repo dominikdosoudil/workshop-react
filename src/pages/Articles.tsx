@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { articleDetailRoute } from "../main.tsx";
+import { API_HOST } from "../constants.ts";
 
 const viewArticle = (article: { id: string; item_name: React.ReactNode }) => (
   <div className="flex flex-row gap-4">
@@ -19,14 +20,12 @@ export const Articles = () => {
 
   useEffect(() => {
     setState("loading");
-    fetch(`http://litshare.cz/articles?skip=${(page - 1) * 10}`).then(
-      (response) => {
-        setState("looaded");
-        response.json().then((data) => {
-          setArticles(data);
-        });
-      },
-    );
+    fetch(`${API_HOST}/articles?skip=${(page - 1) * 10}`).then((response) => {
+      setState("looaded");
+      response.json().then((data) => {
+        setArticles(data);
+      });
+    });
   }, [page]);
 
   return (

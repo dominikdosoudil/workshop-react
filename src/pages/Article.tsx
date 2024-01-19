@@ -6,6 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { API_HOST } from "../constants.ts";
 
 export const Article = () => {
   const { articleId } = articleDetailRoute.useParams();
@@ -13,7 +14,7 @@ export const Article = () => {
   const article = useQuery({
     queryKey: ["article", articleId],
     queryFn: async () => {
-      const response = await fetch(`http://litshare.cz/articles/${articleId}`);
+      const response = await fetch(`${API_HOST}/articles/${articleId}`);
       return await response.json();
     },
     retry: 0,
