@@ -16,7 +16,7 @@ export const Articles = () => {
     Array<{ item_name: string; id: string }>
   >([]);
   const [page, setPage] = useState(1);
-  const [requestState, setState] = useState("not sent");
+  const [_requestState, setState] = useState("not sent");
 
   useEffect(() => {
     setState("loading");

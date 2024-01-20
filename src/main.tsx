@@ -13,13 +13,7 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Home from "./pages/Home.tsx";
 import { Articles } from "./pages/Articles.tsx";
 import { Article } from "./pages/Article.tsx";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 

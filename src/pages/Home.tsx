@@ -1,5 +1,5 @@
-import * as React from "react";
 import { useEffect, useState } from "react";
+import * as formatDuration from "format-duration";
 
 interface TimerProps {
   from: number;
@@ -9,16 +9,29 @@ const Timer = ({ from }: TimerProps) => {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const currentMs = Date.now();
+    const nextRoundSec = Math.ceil(Date.now() / 1000) * 1000;
+    const nextRoundSecAfter = nextRoundSec - currentMs;
+    console.log(`Next round sec: `, nextRoundSecAfter);
+
+    let intervalId: number | null = null;
+
+    const timeoutId = setTimeout(() => {
       setNow(Date.now());
-    }, 1000);
+      intervalId = setInterval(() => {
+        setNow(Date.now());
+      }, 1000);
+    }, nextRoundSecAfter);
 
     return () => {
-      clearInterval(intervalId);
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+      }
+      clearTimeout(timeoutId);
     };
   }, [from]);
 
-  return <div>{now - from}</div>;
+  return <div>{formatDuration(Math.max(0, now - from))}</div>;
 };
 interface HomeProps {}
 
@@ -30,7 +43,9 @@ const Home = ({}: HomeProps) => {
       <h3>Welcome Home!</h3>
       <Timer from={1704463927217} />
       <Timer from={a} />
-      <button onClick={() => setA(Date.now())}>change</button>
+      <button onClick={() => setA(Math.floor(Date.now() / 1000) * 1000)}>
+        change
+      </button>
     </div>
   );
 };

@@ -1,11 +1,5 @@
 import { articleDetailRoute } from "../main.tsx";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { API_HOST } from "../constants.ts";
 
 export const Article = () => {
